@@ -9,9 +9,9 @@ import lombok.Setter;
 @Builder
 public class OperacionResponse {
 
-	private float monto;
+	private double monto;
 	
-	private float nuevoMonto;
+	private double nuevoMonto;
 	
 	private String  monedaDestino;
 	

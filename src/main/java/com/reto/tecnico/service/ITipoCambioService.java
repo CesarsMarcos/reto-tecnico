@@ -1,20 +1,19 @@
 package com.reto.tecnico.service;
 
 import com.reto.tecnico.model.entity.TipoCambio;
+import com.reto.tecnico.model.request.OperacionRequest;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface ITipoCambioService {
 
-	 Flux<TipoCambio> listar();
-	
-	 Mono<TipoCambio> guardar(TipoCambio tipo);
+	Flux<TipoCambio> listar();
 
-	 Mono<TipoCambio> modificar(Long id, TipoCambio tipoCambio);
+	Mono<TipoCambio> registrar(OperacionRequest request, Long origen, Long destino);
 
-	 Mono<TipoCambio> obtenerPorId(Long id);
+	Mono<TipoCambio> obtenerPorId(Long id);
 
-	 Mono<Void> eliminar(Long id);
+	Mono<Void> eliminar(Long id);
 
 }

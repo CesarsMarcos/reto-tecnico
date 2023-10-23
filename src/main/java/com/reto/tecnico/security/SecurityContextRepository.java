@@ -2,7 +2,6 @@ package com.reto.tecnico.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -11,9 +10,11 @@ import org.springframework.security.web.server.context.ServerSecurityContextRepo
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
+import lombok.AllArgsConstructor;
 import reactor.core.publisher.Mono;
 
 @Component
+@AllArgsConstructor
 public class SecurityContextRepository implements ServerSecurityContextRepository{
 
 	@Autowired
@@ -26,20 +27,12 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
 	@Override
 	public Mono<SecurityContext> load(ServerWebExchange swe) {
-		ServerHttpRequest request = swe.getRequest();
-		String authHeader = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
-
-		if (authHeader != null) {
-			if (authHeader.startsWith("Bearer ") || authHeader.startsWith("bearer ")) {
-				String authToken = authHeader.substring(7);
-				Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
-				return this.authenticationManager.authenticate(auth).map((authentication) -> {
-					return new SecurityContextImpl(authentication);
-				});
-			}else {
-				return Mono.error(new InterruptedException("No estas autorizado"));			
-			}
-		}
-		return Mono.empty();
+		return Mono.justOrEmpty(swe.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION))
+	            .filter(authHeader -> authHeader.startsWith("Bearer "))
+	            .flatMap(authHeader -> {
+	                String authToken = authHeader.substring(7);
+	                Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
+	                return this.authenticationManager.authenticate(auth).map(SecurityContextImpl::new);
+	            });
 	}
 }

@@ -14,7 +14,7 @@ import io.r2dbc.h2.H2ConnectionFactory;
 import io.r2dbc.spi.ConnectionFactory;
 
 @Configuration
-@EnableR2dbcRepositories/*(basePackages = "com.reto.tecnico.repository")*/
+//@EnableR2dbcRepositories/*(basePackages = "com.reto.tecnico.repository")*/
 public class DataBaseConfig /*extends AbstractR2dbcConfiguration */{
 	
     /*@Bean

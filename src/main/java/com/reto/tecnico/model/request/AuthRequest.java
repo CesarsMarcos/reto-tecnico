@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Builder
 @AllArgsConstructor
-public class AutenticacionRequest {
+public class AuthRequest {
 
 	@NotBlank
 	private String username;

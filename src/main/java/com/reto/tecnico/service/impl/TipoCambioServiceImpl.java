@@ -2,34 +2,61 @@ package com.reto.tecnico.service.impl;
 
 import org.springframework.stereotype.Service;
 
+import com.reto.tecnico.model.entity.Cotizacion;
 import com.reto.tecnico.model.entity.TipoCambio;
+import com.reto.tecnico.model.request.OperacionRequest;
+import com.reto.tecnico.repository.CotizacionRepository;
+import com.reto.tecnico.repository.MonedaRepository;
 import com.reto.tecnico.repository.TipoCambioRepository;
 import com.reto.tecnico.service.ITipoCambioService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TipoCambioServiceImpl implements ITipoCambioService {
 
 	private final TipoCambioRepository tipoCambioRepo;
+
+	private final MonedaRepository monedaRepo;
 	
+	private final CotizacionRepository cotizacionRepo;
+
+	@Override
+	public Mono<TipoCambio> registrar(OperacionRequest operacion, Long origen, Long destino) {
+
+		// El sistema debe poder realizar un tipo de cambio a un monto
+		// donde se deben utilizar el monto, moneda de origen, moneda de destino, monto
+		// con el tipo de campo y el tipo de cambio.
+		// Debe Permitir el registro, actualización y búsqueda del tipo de cambio.
+		
+
+		return monedaRepo.findById(origen).flatMap(dataOrigen->
+			monedaRepo.findById(destino).flatMap(dataDestino->{
+				return cotizacionRepo.findByOrigenAndDestino(origen, destino).map(Cotizacion::getMonto)
+						.flatMap(monto-> {
+							double nuevoMonto = operacion.getMonto() / monto;
+							nuevoMonto = (double) Math.round(nuevoMonto * 100d) / 100;
+							return tipoCambioRepo.save(TipoCambio.builder()
+									.monedaOrigen(dataOrigen.getDescripcion())
+									.monedaDestino(dataDestino.getDescripcion())
+									.monto(operacion.getMonto())
+									.nuevoMonto(nuevoMonto)
+									.build());
+						});	
+		}));
+		
+		
+	}
+
 
 	@Override
 	public Flux<TipoCambio> listar() {
 		return tipoCambioRepo.findAll();
-	}
-	
-	@Override
-	public Mono<TipoCambio> guardar(TipoCambio tipo) {
-		return tipoCambioRepo.save(tipo);
-	}
-
-	@Override
-	public Mono<TipoCambio> modificar(Long id, TipoCambio tipo) {
-		return tipoCambioRepo.save(tipo);
 	}
 
 	@Override

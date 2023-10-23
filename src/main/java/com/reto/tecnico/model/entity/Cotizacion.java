@@ -8,24 +8,23 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-@AllArgsConstructor
+@Getter
 @Builder
-@Table(name = "tipo_cambios")
-public class TipoCambio {
-
+@AllArgsConstructor
+@Table(name="cotizaciones")
+public class Cotizacion {
+	
 	@Id
 	private Long id;
-
+	
+	//moneda id
+	private Long origen; 
+	
+	//moneda id
+	private Long destino;
+	
 	private double monto;
-
-	private double nuevoMonto;
-
-	private String monedaOrigen;
 	
-	private String monedaDestino;
-
 	
-
 }

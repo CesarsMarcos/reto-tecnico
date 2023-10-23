@@ -1,17 +1,26 @@
 package com.reto.tecnico.model.request;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class OperacionRequest {
+public class OperacionRequest implements Serializable{
 
-	private float monto;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6532460365177650626L;
+	
+	private double monto;
 	
 	
 }

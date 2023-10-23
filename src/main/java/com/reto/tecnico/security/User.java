@@ -1,9 +1,9 @@
 package com.reto.tecnico.security;
 
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,8 +11,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.reto.tecnico.model.Role;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class User implements UserDetails {
 	
 	private static final long serialVersionUID = 1L;
@@ -22,24 +30,31 @@ public class User implements UserDetails {
 	private String password;
 	
 	private Boolean enabled;
-		
-	private List<String> roles;
+	
+	private List<Role> roles;
 
-	public User(String username, String password, Boolean enabled, List<String> authorities) {
-		super();
-		this.username = username;
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+	
+	@JsonProperty
+	public void setPassword(String password) {
 		this.password = password;
-		this.enabled = enabled;
-		this.roles = authorities;
 	}
 
 	@Override
-	public String getUsername() {
-		return username;
+	public boolean isEnabled() {
+		return enabled;
 	}
-	
-	public void setUsername(String username) {
-		this.username = username;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+		for (Role r : this.roles) {
+			authorities.add(new SimpleGrantedAuthority(r.toString()));
+		}
+		return authorities;
 	}
 
 	@Override
@@ -55,42 +70,5 @@ public class User implements UserDetails {
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return false;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return this.enabled;
-	}
-
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return this.roles.stream().map(authority -> new SimpleGrantedAuthority(authority)).collect(Collectors.toList());
-	}
-
-	@JsonIgnore
-	@Override
-	public String getPassword() {
-		return password;
-	}
-	
-	@JsonProperty
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-
-	public Boolean getEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(Boolean enabled) {
-		this.enabled = enabled;
 	}
 }

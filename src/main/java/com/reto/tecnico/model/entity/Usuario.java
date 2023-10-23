@@ -1,10 +1,9 @@
 package com.reto.tecnico.model.entity;
 
-import java.util.List;
-
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Table;
 
-import com.reto.tecnico.model.Rol;
+import com.reto.tecnico.model.Role;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,20 +14,19 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Builder
+@Table(name = "usuarios")
 public class Usuario {
 
 	@Id
-	private Long id;
-
-	private String nombres;
+	private String id;
 
 	private String usuario;
 
 	private String password;
 
-	private Rol rol;
-
 	private Boolean estado;
 
-	
+	private Role rol;
+
+
 }
