@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.reto.tecnico.model.dto.MonedaDto;
 import com.reto.tecnico.model.entity.Moneda;
 import com.reto.tecnico.service.IMonedaService;
 
@@ -30,8 +31,8 @@ public class MonedaController {
 	@ApiOperation( value = "Listado de Monedas", response = Moneda.class)
 	@ApiResponse(responseCode = "200")
 	@GetMapping
-	public Mono<ResponseEntity<Flux<Moneda>>> listar(@RequestParam ("descripcion") String  descripcion) {
-		Flux<Moneda> fxLista = monedaService.listar();
+	public Mono<ResponseEntity<Flux<MonedaDto>>> listar(@RequestParam ("descripcion") String  descripcion) {
+		Flux<MonedaDto> fxLista = monedaService.listar();
 		return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fxLista));
 	}
 	

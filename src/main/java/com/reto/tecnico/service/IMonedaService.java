@@ -1,23 +1,25 @@
 package com.reto.tecnico.service;
 
 
+import com.reto.tecnico.model.dto.MonedaDto;
 import com.reto.tecnico.model.entity.Moneda;
+import com.reto.tecnico.model.request.MonedaRequest;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public interface IMonedaService {
 	
-	Flux<Moneda> listar();
+	Flux<MonedaDto> listar();
 	
 	Mono<Moneda> obtenerPorCodigo(String codigo);
 
-	Mono<Moneda> registrar(Moneda moneda);
+	Mono<MonedaDto> registrar(MonedaRequest moneda);
 
-	Mono<Moneda> obtenerPorId(Long id);
+	Mono<MonedaDto> obtenerPorId(Long id);
 	
-	Mono<Moneda> eliminar(Long id);
+	Mono<Void> eliminar(Long id);
 	
-	Mono<Moneda> buscar (String codigo);
+	Mono<MonedaDto> buscar (String codigo);
 	
 }

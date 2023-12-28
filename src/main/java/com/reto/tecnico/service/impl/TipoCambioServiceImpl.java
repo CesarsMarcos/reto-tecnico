@@ -34,13 +34,15 @@ public class TipoCambioServiceImpl implements ITipoCambioService {
 		// con el tipo de campo y el tipo de cambio.
 		// Debe Permitir el registro, actualización y búsqueda del tipo de cambio.
 		
-
-		return monedaRepo.findById(origen).flatMap(dataOrigen->
-			monedaRepo.findById(destino).flatMap(dataDestino->{
+		return monedaRepo.findById(origen)
+				.flatMap(dataOrigen->
+				monedaRepo.findById(destino)
+				.flatMap(dataDestino->{
 				return cotizacionRepo.findByOrigenAndDestino(origen, destino).map(Cotizacion::getMonto)
 						.flatMap(monto-> {
 							double nuevoMonto = operacion.getMonto() / monto;
 							nuevoMonto = (double) Math.round(nuevoMonto * 100d) / 100;
+							
 							return tipoCambioRepo.save(TipoCambio.builder()
 									.monedaOrigen(dataOrigen.getDescripcion())
 									.monedaDestino(dataDestino.getDescripcion())
@@ -49,6 +51,9 @@ public class TipoCambioServiceImpl implements ITipoCambioService {
 									.build());
 						});	
 		}));
+		
+		
+		
 		
 		
 	}
