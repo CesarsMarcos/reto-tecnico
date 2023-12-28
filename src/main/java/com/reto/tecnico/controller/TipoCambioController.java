@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.reto.tecnico.model.dto.TipoCambioDto;
 import com.reto.tecnico.model.entity.TipoCambio;
 import com.reto.tecnico.model.request.OperacionRequest;
 import com.reto.tecnico.service.ITipoCambioService;
@@ -25,9 +26,9 @@ public class TipoCambioController {
 	private final ITipoCambioService tipoCambioService;
 	
 	@ApiOperation( value = "Realiza las operaciones de cambio de divisa", response = TipoCambio.class)
-	@ApiResponse(responseCode = "200")
+	@ApiResponse(responseCode = "204")
 	@PostMapping
-	public Mono<ResponseEntity<TipoCambio>> calcular (
+	public Mono<ResponseEntity<TipoCambioDto>> calcular (
 			@RequestParam ("origen") Long  origen,
 			@RequestParam ("destino") Long destino,
 			@RequestBody OperacionRequest operacion){

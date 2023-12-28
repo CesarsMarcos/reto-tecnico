@@ -14,7 +14,7 @@ public class MonedaDto {
 
 	private long id;
 	
-	private String descripcion;
+	private String divisa;
 	
 	private String codigo;
 	

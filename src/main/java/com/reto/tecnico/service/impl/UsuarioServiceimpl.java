@@ -5,14 +5,15 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.reto.tecnico.model.Role;
-import com.reto.tecnico.model.entity.Usuario;
 import com.reto.tecnico.repository.UsuarioRepository;
 import com.reto.tecnico.security.User;
 import com.reto.tecnico.service.IUsuarioService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UsuarioServiceimpl implements IUsuarioService {
@@ -22,14 +23,14 @@ public class UsuarioServiceimpl implements IUsuarioService {
 
 	@Override
 	public Mono<User> buscarPorUsuario(String usuario) {
-		Mono<Usuario> monoUsuario = usuarioRepo.findOneByUsuario(usuario);
-		
-		return monoUsuario.flatMap(
-				user-> {
-					List<Role> roles = new ArrayList<Role>();
-					roles.add(user.getRol());
-			     return Mono.just(new User(user.getUsuario(), user.getPassword(), user.getEstado(), roles));
-			});
+		return usuarioRepo.findByUsuario(usuario)
+				    .doOnNext(x-> log.info("usuarios de bd : {}", x.toString()))
+					.map(u -> {
+						List<Role> roles = new ArrayList<Role>();
+						roles.add(u.getRol());
+						 return new User(u.getUsuario(), u.getPassword(), u.getEstado(), roles);
+					});
+			
 	}
 
 }

@@ -14,9 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
-@Slf4j
+
 public class MonedaServiceImpl implements IMonedaService {
 
 	private final MonedaRepository monedaRepo;
@@ -26,7 +27,7 @@ public class MonedaServiceImpl implements IMonedaService {
 	@Override
 	public Flux<MonedaDto> listar() {
 		return monedaRepo.findAll()
-				.doOnNext(moneda-> log.info("", moneda))
+				.doOnNext(moneda-> log.info("menda a a listar", moneda.toString()))
 				.map(mapper::mapToMonedaDto);
 	}
 
@@ -43,21 +44,22 @@ public class MonedaServiceImpl implements IMonedaService {
 				.descripcion(moneda.getDescripcion())
 				.estado(moneda.getEstado())
 				.build())
-				.doOnSuccess(prod -> log.info("Producto editado: {}", prod))
+				.doOnSuccess(mone -> log.info("Moneda editado: {}", mone))
 				.map(mapper::mapToMonedaDto);
 				
 	}
 
 	@Override
 	public Mono<MonedaDto> obtenerPorId(Long id) {
-	
-		return null;
+		return monedaRepo.findById(id)
+				.doOnNext(x -> log.info(x.getDescripcion()))
+				.map(mapper::mapToMonedaDto);
 	}
 
 	@Override
 	public Mono<MonedaDto> buscar(String codigo) {
-		//return monedaRepo.findMonedaByCodigoContainingIgnoreCase(codigo);
-		return null;
+		return monedaRepo.findMonedaByCodigoContainingIgnoreCase(codigo)
+				.map(mapper::mapToMonedaDto);
 	}
 
 	@Override
@@ -68,8 +70,7 @@ public class MonedaServiceImpl implements IMonedaService {
 			return monedaRepo.save(monedaSave);
 		});*/
 		
-		
-
+		return Mono.empty().then();
 	}
 
 }

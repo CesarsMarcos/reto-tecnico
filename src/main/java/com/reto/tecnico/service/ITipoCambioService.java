@@ -1,5 +1,6 @@
 package com.reto.tecnico.service;
 
+import com.reto.tecnico.model.dto.TipoCambioDto;
 import com.reto.tecnico.model.entity.TipoCambio;
 import com.reto.tecnico.model.request.OperacionRequest;
 
@@ -10,7 +11,7 @@ public interface ITipoCambioService {
 
 	Flux<TipoCambio> listar();
 
-	Mono<TipoCambio> registrar(OperacionRequest request, Long origen, Long destino);
+	Mono<TipoCambioDto> registrar(OperacionRequest request, Long origen, Long destino);
 
 	Mono<TipoCambio> obtenerPorId(Long id);
 
