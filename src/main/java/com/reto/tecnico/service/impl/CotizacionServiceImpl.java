@@ -19,5 +19,4 @@ public class CotizacionServiceImpl implements ICotizacionService{
 	public Mono<Cotizacion> obtenerPorOrginDestino(Long idOrigen, Long idDestino) {
 		return cotizacionRepo.findByOrigenAndDestino(idOrigen, idDestino);
 	}
-
 }

@@ -36,7 +36,4 @@ public class TipoCambioController {
 		return tipoCambioService.registrar(operacion, origen, destino)
 				.map(tipoCambio -> new ResponseEntity<>(tipoCambio, HttpStatus.CREATED));
 	}
-	
-
-
 }

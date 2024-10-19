@@ -18,7 +18,6 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UsuarioServiceimpl implements IUsuarioService {
 
-	
 	private final UsuarioRepository usuarioRepo;
 
 	@Override
@@ -32,5 +31,4 @@ public class UsuarioServiceimpl implements IUsuarioService {
 					});
 			
 	}
-
 }

@@ -31,5 +31,4 @@ public class CotizacionController {
 		Flux<Cotizacion> fxLista = cotizacionRepo.findAll();
 		return Mono.just(ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(fxLista));
 	}
-	
 }
