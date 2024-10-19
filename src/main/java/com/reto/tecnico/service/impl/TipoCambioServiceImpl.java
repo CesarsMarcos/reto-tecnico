@@ -40,13 +40,15 @@ public class TipoCambioServiceImpl implements ITipoCambioService {
 
 		return monedaRepo.findById(origen).flatMap(dataOrigen -> monedaRepo.findById(destino).flatMap(dataDestino -> {
 			return cotizacionRepo.findByOrigenAndDestino(origen, destino).map(Cotizacion::getMonto).map(monto -> {
+				
 				double nuevoMonto = operacion.getMonto() / monto;
 				nuevoMonto = (double) Math.round(nuevoMonto * 100d) / 100;
 
 				return TipoCambio.builder().monedaOrigen(dataOrigen.getDescripcion())
 						.monedaDestino(dataDestino.getDescripcion()).monto(operacion.getMonto()).nuevoMonto(nuevoMonto)
 						.build();
-			}).flatMap(tipoCambioRepo::save).doOnSuccess(tipo -> log.info("Tipo de cambio creada: {}", tipo))
+			}).flatMap(tipoCambioRepo::save)
+					.doOnSuccess(tipo -> log.info("Tipo de cambio creada: {}", tipo))
 					.map(mapper::mapTipoCambioDto);
 		}));
 

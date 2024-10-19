@@ -1,30 +1,27 @@
-package com.reto.tecnico.model.dto;
-
+package com.reto.tecnico.model.request;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
+
 @Getter
-@Builder
-@AllArgsConstructor
-public class CotizacionDto {
-	
-	private Long id;
-	
+@Setter
+public class CotizacionRequest {
+
+	@NotNull
 	//moneda id
 	private Long origen; 
-
+	
+	@NotNull
 	//moneda id
 	private Long destino;
 	
 	
+	@Min(value = 1)
+	@NotNull
 	private double monto;
-	
-	
+            
 }

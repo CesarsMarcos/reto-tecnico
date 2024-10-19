@@ -1,6 +1,8 @@
 package com.reto.tecnico.model.dto;
 
 
+import javax.validation.constraints.NotNull;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +18,10 @@ public class TransaccionDto {
 	
 	private float monto;
 	
-	private float modenaOrigen;
+	private long modenaOrigen;
 	
-	private float monedaDestino;
-	
+	private long monedaDestino;
+
 	private float montoFinal;
 	
 	

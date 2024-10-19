@@ -1,5 +1,8 @@
 package com.reto.tecnico.model.dto;
-import org.springframework.data.annotation.Id;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,12 +23,14 @@ public class TipoCambioDto {
 
 	private Long id;
 
+	@Min(value = 3)
+
 	private double monto;
 
 	private double nuevoMonto;
 
 	private String monedaOrigen;
-	
+
 	private String monedaDestino;
 
 

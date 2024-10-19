@@ -18,19 +18,19 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class UsuarioServiceimpl implements IUsuarioService {
 
-	
 	private final UsuarioRepository usuarioRepo;
 
 	@Override
 	public Mono<User> buscarPorUsuario(String usuario) {
 		return usuarioRepo.findByUsuario(usuario)
-				    .doOnNext(x-> log.info("usuarios de bd : {}", x.toString()))
-					.map(u -> {
-						List<Role> roles = new ArrayList<Role>();
-						roles.add(u.getRol());
-						 return new User(u.getUsuario(), u.getPassword(), u.getEstado(), roles);
-					});
-			
+				
+				.doOnNext(x -> log.info("usuarios de bd : {}", x.toString()))
+				.map(u -> {
+					List<Role> roles = new ArrayList<Role>();
+					roles.add(u.getRol());
+					return new User(u.getUsuario(), u.getPassword(), u.getEstado(), roles);
+				});
+
 	}
 
 }

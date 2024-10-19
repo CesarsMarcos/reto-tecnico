@@ -14,6 +14,8 @@ public interface IMonedaService {
 	
 	Mono<Moneda> obtenerPorCodigo(String codigo);
 
+	Mono<MonedaDto> modificar(Long id, MonedaRequest moneda);
+	
 	Mono<MonedaDto> registrar(MonedaRequest moneda);
 
 	Mono<MonedaDto> obtenerPorId(Long id);

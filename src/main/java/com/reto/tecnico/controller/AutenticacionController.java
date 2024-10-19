@@ -1,4 +1,5 @@
 package com.reto.tecnico.controller;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -33,6 +34,7 @@ public class AutenticacionController {
 	public Mono<ResponseEntity<AuthResponse>> login(@RequestBody AuthRequest request) {	
 		
 		log.info("Usuario ingresado "+ request.getUsername());
+
 		
 		return usuarioService.buscarPorUsuario(request.getUsername())
 				.filter(userDetails ->BCrypt.checkpw(request.getPassword(), userDetails.getPassword()))

@@ -6,12 +6,14 @@ import org.springframework.data.relational.core.mapping.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name="monedas")
 public class Moneda {
 	
