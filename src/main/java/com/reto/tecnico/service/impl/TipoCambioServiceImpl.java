@@ -51,7 +51,6 @@ public class TipoCambioServiceImpl implements ITipoCambioService {
 					.doOnSuccess(tipo -> log.info("Tipo de cambio creada: {}", tipo))
 					.map(mapper::mapTipoCambioDto);
 		}));
-
 	}
 
 	@Override

@@ -9,5 +9,4 @@ import reactor.core.publisher.Mono;
 public interface UsuarioRepository extends ReactiveCrudRepository<Usuario, Long>{
 
 	Mono<Usuario> findByUsuario(String usuario);
-
 }

@@ -40,8 +40,7 @@ public class TipoCambioController {
 		return tipoCambioService.registrar(operacion, origen, destino)
 				.map(tipoCambio -> new ResponseEntity<>(tipoCambio, HttpStatus.CREATED));
 	}
-	
-	
+
 	@DeleteMapping("{id}")
 	public Mono<ResponseEntity<Void>> eliminar(@PathVariable Long id){
 		return tipoCambioService.obtenerPorId(id)
@@ -50,5 +49,5 @@ public class TipoCambioController {
 							.then(Mono.just(ResponseEntity.noContent().build()));
 				});
 	}
-	
+
 }
